@@ -5,15 +5,22 @@
       body {
         margin: 0;
         display: flex;
-        justify-content: center;   /* centers horizontally */
-        align-items: center;       /* centers vertically */
-        height: 100vh;             /* full screen height */
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
         background-color: #ffffff;
       }
 
       img {
-        max-width: 50%;   /* scales with screen */
-        height: auto;      /* keeps proportions */
+        max-width: 90%;   /* 📱 mobile */
+        height: auto;
+      }
+
+      /* 💻 desktop */
+      @media (min-width: 768px) {
+        img {
+          max-width: 50%;
+        }
       }
     </style>
   </head>
