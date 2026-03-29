@@ -14,7 +14,13 @@
       .image-container {
         position: relative;
         width: 90vw;
-        max-width: 600px;
+        max-width: 90vw;
+      }
+      @media (min-width: 768px) {
+        .image-container {
+          width: 50vw;
+          max-width: 50vw;
+        }
       }
       .image-container img {
         width: 100%;
@@ -57,15 +63,15 @@
   <body>
     <div class="image-container">
       <!-- Default image -->
-      <img src="lol0001.png" alt="Default image">
+      <img src="lol0001.jpg" alt="Default image">
 
       <!-- One hover image per zone — update src filenames as needed -->
-      <img src="lol0002.png" alt="Zone 1 hover" class="hover" data-zone="1">
-      <img src="lol0003.png" alt="Zone 2 hover" class="hover" data-zone="2">
-      <img src="lol0004.png" alt="Zone 3 hover" class="hover" data-zone="3">
-      <img src="lol0005.png" alt="Zone 4 hover" class="hover" data-zone="4">
-      <img src="lol0006.png" alt="Zone 5 hover" class="hover" data-zone="5">
-      <img src="lol0007.png" alt="Zone 6 hover" class="hover" data-zone="6">
+      <img src="lol0002.jpg" alt="Zone 1 hover" class="hover" data-zone="1">
+      <img src="lol0003.jpg" alt="Zone 2 hover" class="hover" data-zone="2">
+      <img src="lol0004.jpg" alt="Zone 3 hover" class="hover" data-zone="3">
+      <img src="lol0005.jpg" alt="Zone 4 hover" class="hover" data-zone="4">
+      <img src="lol0006.jpg" alt="Zone 5 hover" class="hover" data-zone="5">
+      <img src="lol0007.jpg" alt="Zone 6 hover" class="hover" data-zone="6">
 
       <!-- Hover zones (also handle touch for mobile) -->
       <div class="hover-zone zone1" data-zone="1"></div>
