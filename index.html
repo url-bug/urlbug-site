@@ -35,14 +35,21 @@
       .hover-zone {
         position: absolute;
         cursor: pointer;
+        /* Uncomment below to debug zone positions: */
+        /* background: rgba(255,0,0,0.2); border: 1px solid red; */
       }
-      /* 3 rows x 2 columns */
-      .zone1 { top: 0;       left: 0;   width: 50%; height: 33.33%; }
-      .zone2 { top: 0;       left: 50%; width: 50%; height: 33.33%; }
-      .zone3 { top: 33.33%;  left: 0;   width: 50%; height: 33.33%; }
-      .zone4 { top: 33.33%;  left: 50%; width: 50%; height: 33.33%; }
-      .zone5 { top: 66.66%;  left: 0;   width: 50%; height: 33.33%; }
-      .zone6 { top: 66.66%;  left: 50%; width: 50%; height: 33.33%; }
+      /*
+        Cabinet spans roughly:
+          horizontally: 33% to 82% of image width
+          vertically:   43% to 93% of image height
+        Split into 2 cols and 3 rows.
+      */
+      .zone1 { top: 43%;   left: 33%;   width: 24.5%; height: 16.7%; } /* top-left     */
+      .zone2 { top: 43%;   left: 57.5%; width: 24.5%; height: 16.7%; } /* top-right    */
+      .zone3 { top: 59.7%; left: 33%;   width: 24.5%; height: 16.7%; } /* middle-left  */
+      .zone4 { top: 59.7%; left: 57.5%; width: 24.5%; height: 16.7%; } /* middle-right */
+      .zone5 { top: 76.3%; left: 33%;   width: 24.5%; height: 16.7%; } /* bottom-left  */
+      .zone6 { top: 76.3%; left: 57.5%; width: 24.5%; height: 16.7%; } /* bottom-right */
     </style>
   </head>
   <body>
