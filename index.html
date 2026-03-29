@@ -8,7 +8,7 @@
         justify-content: center;
         align-items: center;
         height: 100vh;
-        background-color: #f5f5f5;
+        background-color: #ffffff;
       }
 
       .image-container {
@@ -23,7 +23,7 @@
         display: block;
       }
 
-      /* Hover images (stacked) */
+      /* Hover images stacked and hidden initially */
       .image-container img.hover {
         position: absolute;
         top: 0;
@@ -31,32 +31,44 @@
         width: 100%;
         height: auto;
         opacity: 0;
+        pointer-events: none; /* prevents blocking hover */
         transition: opacity 0.3s ease;
       }
 
-      /* Hover zones */
+      /* Hover zones stacked on top */
       .hover-zone {
         position: absolute;
+        width: 50%;
+        height: 33.33%;
         cursor: pointer;
       }
 
-      /* Show the corresponding hover image */
-      .zone1:hover ~ .hover1 { opacity: 1; }
-      .zone2:hover ~ .hover2 { opacity: 1; }
-      .zone3:hover ~ .hover3 { opacity: 1; }
-      .zone4:hover ~ .hover4 { opacity: 1; }
-      .zone5:hover ~ .hover5 { opacity: 1; }
-      .zone6:hover ~ .hover6 { opacity: 1; }
+      /* Grid positions */
+      .zone1 { top: 0; left: 0; }
+      .zone2 { top: 0; left: 50%; }
+      .zone3 { top: 33.33%; left: 0; }
+      .zone4 { top: 33.33%; left: 50%; }
+      .zone5 { top: 66.66%; left: 0; }
+      .zone6 { top: 66.66%; left: 50%; }
 
-      /* 3 rows x 2 columns */
-      .zone1 { top: 0; left: 0; width: 50%; height: 33.33%; }
-      .zone2 { top: 0; left: 50%; width: 50%; height: 33.33%; }
+      /* Hover effect using parent container */
+      .zone1:hover ~ .hover1,
+      .zone2:hover ~ .hover2,
+      .zone3:hover ~ .hover3,
+      .zone4:hover ~ .hover4,
+      .zone5:hover ~ .hover5,
+      .zone6:hover ~ .hover6 {
+        opacity: 1;
+      }
 
-      .zone3 { top: 33.33%; left: 0; width: 50%; height: 33.33%; }
-      .zone4 { top: 33.33%; left: 50%; width: 50%; height: 33.33%; }
+      /* Ensure hover zones are on top */
+      .hover-zone {
+        z-index: 2;
+      }
 
-      .zone5 { top: 66.66%; left: 0; width: 50%; height: 33.33%; }
-      .zone6 { top: 66.66%; left: 50%; width: 50%; height: 33.33%; }
+      .image-container img.hover {
+        z-index: 1;
+      }
     </style>
   </head>
 
@@ -73,7 +85,7 @@
       <img src="lol0006.png" alt="Hover 5" class="hover hover5">
       <img src="lol0007.png" alt="Hover 6" class="hover hover6">
 
-      <!-- Hover zones -->
+      <!-- Transparent hover zones -->
       <div class="hover-zone zone1"></div>
       <div class="hover-zone zone2"></div>
       <div class="hover-zone zone3"></div>
