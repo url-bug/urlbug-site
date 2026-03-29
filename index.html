@@ -10,7 +10,7 @@
         align-items: center;
         min-height: 100vh;
         background-color: #ffffff;
-	overflow-x: hidden;
+        overflow-x: hidden;
       }
       .image-container {
         position: relative;
@@ -44,37 +44,24 @@
       .hover-zone {
         position: absolute;
         cursor: pointer;
-        /* Uncomment below to debug zone positions: */
-        /* background: rgba(255,0,0,0.2); border: 1px solid red; */
       }
-      /*
-        Cabinet spans roughly:
-          horizontally: 33% to 80% of image width
-          vertically:   43% to 93% of image height
-        Split into 2 cols and 3 rows.
-      */
-      .zone1 { top: 43%;   left: 33%;   width: 22%; height: 16.7%; } /* top-left     */
-      .zone2 { top: 43%;   left: 50%;   width: 22%; height: 16.7%; } /* top-right    */
-      .zone3 { top: 59.7%; left: 33%;   width: 22%; height: 16.7%; } /* middle-left  */
-      .zone4 { top: 59.7%; left: 50%;   width: 22%; height: 16.7%; } /* middle-right */
-      .zone5 { top: 76.3%; left: 33%;   width: 22%; height: 16.7%; } /* bottom-left  */
-      .zone6 { top: 76.3%; left: 50%;   width: 22%; height: 16.7%; } /* bottom-right */
+      .zone1 { top: 43%;   left: 33%;   width: 22%; height: 16.7%; }
+      .zone2 { top: 43%;   left: 50%;   width: 22%; height: 16.7%; }
+      .zone3 { top: 59.7%; left: 33%;   width: 22%; height: 16.7%; }
+      .zone4 { top: 59.7%; left: 50%;   width: 22%; height: 16.7%; }
+      .zone5 { top: 76.3%; left: 33%;   width: 22%; height: 16.7%; }
+      .zone6 { top: 76.3%; left: 50%;   width: 22%; height: 16.7%; }
     </style>
   </head>
   <body>
     <div class="image-container">
-      <!-- Default image -->
       <img src="lol0001.jpg" alt="Default image">
-
-      <!-- One hover image per zone — update src filenames as needed -->
       <img src="lol0002.jpg" alt="Zone 1 hover" class="hover" data-zone="1">
       <img src="lol0003.jpg" alt="Zone 2 hover" class="hover" data-zone="2">
       <img src="lol0004.jpg" alt="Zone 3 hover" class="hover" data-zone="3">
       <img src="lol0005.jpg" alt="Zone 4 hover" class="hover" data-zone="4">
       <img src="lol0006.jpg" alt="Zone 5 hover" class="hover" data-zone="5">
       <img src="lol0007.jpg" alt="Zone 6 hover" class="hover" data-zone="6">
-
-      <!-- Hover zones (also handle touch for mobile) -->
       <div class="hover-zone zone1" data-zone="1"></div>
       <div class="hover-zone zone2" data-zone="2"></div>
       <div class="hover-zone zone3" data-zone="3"></div>
@@ -90,24 +77,16 @@
         const zoneId = zone.dataset.zone;
         const matchingImage = document.querySelector(`img.hover[data-zone="${zoneId}"]`);
 
-        // Mouse events (desktop)
-        zone.addEventListener('mouseenter', () => {
-          matchingImage.classList.add('active');
-        });
-        zone.addEventListener('mouseleave', () => {
-          matchingImage.classList.remove('active');
-        });
+        zone.addEventListener('mouseenter', () => matchingImage.classList.add('active'));
+        zone.addEventListener('mouseleave', () => matchingImage.classList.remove('active'));
 
-        // Touch events (mobile)
         zone.addEventListener('touchstart', (e) => {
           e.preventDefault();
-          // Clear all other active hover images first
           document.querySelectorAll('img.hover.active').forEach(img => img.classList.remove('active'));
           matchingImage.classList.add('active');
         }, { passive: false });
       });
 
-      // Tap anywhere outside a zone to reset on mobile
       document.addEventListener('touchstart', (e) => {
         if (!e.target.classList.contains('hover-zone')) {
           document.querySelectorAll('img.hover.active').forEach(img => img.classList.remove('active'));
