@@ -35,7 +35,68 @@
         transition: opacity 0.3s ease;
       }
 
-      /* Hover zones stacked on top */
+      /* Hover zones stacked on top */<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #ffffff;
+      }
+
+      .image-container {
+        position: relative;
+        width: 50%;
+        padding-top: 75%; /* maintain aspect ratio (4:3) */
+        background-image: url(lol0001.png);
+        background-size: cover;
+        background-position: center;
+      }
+
+      /* Hover zones */
+      .hover-zone {
+        position: absolute;
+        cursor: pointer;
+      }
+
+      /* Grid positions: 3 rows x 2 columns */
+      .zone1 { top: 0; left: 0; width: 50%; height: 33.33%; }
+      .zone2 { top: 0; left: 50%; width: 50%; height: 33.33%; }
+      .zone3 { top: 33.33%; left: 0; width: 50%; height: 33.33%; }
+      .zone4 { top: 33.33%; left: 50%; width: 50%; height: 33.33%; }
+      .zone5 { top: 66.66%; left: 0; width: 50%; height: 33.33%; }
+      .zone6 { top: 66.66%; left: 50%; width: 50%; height: 33.33%; }
+
+      /* Hover effect for each zone */
+      .zone1:hover ~ .image-container { background-image: url(lol0002.png); }
+      .zone2:hover ~ .image-container { background-image: url(lol0003.png); }
+      .zone3:hover ~ .image-container { background-image: url(lol0004.png); }
+      .zone4:hover ~ .image-container { background-image: url(lol0005.png); }
+      .zone5:hover ~ .image-container { background-image: url(lol0006.png); }
+      .zone6:hover ~ .image-container { background-image: url(lol0007.png); }
+
+      /* Ensure hover zones are on top */
+      .hover-zone {
+        z-index: 2;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="hover-zone zone1"></div>
+    <div class="hover-zone zone2"></div>
+    <div class="hover-zone zone3"></div>
+    <div class="hover-zone zone4"></div>
+    <div class="hover-zone zone5"></div>
+    <div class="hover-zone zone6"></div>
+
+    <div class="image-container"></div>
+  </body>
+</html>
       .hover-zone {
         position: absolute;
         width: 50%;
