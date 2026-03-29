@@ -2,29 +2,34 @@
 <html>
   <head>
     <style>
-      html, body {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        width: 100%;
-      }
-
       body {
+        margin: 0;
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #000; /* fallback in case image has transparency */
+        height: 100vh;
+        background-color: #ffffff;
       }
 
+      /* Mobile first: image fills almost full screen */
       img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover; /* fills screen while keeping aspect ratio */
+        width: 95%;
+        max-width: 95%;
+        height: auto;
+      }
+
+      /* Desktop: image is 50% */
+      @media (min-width: 768px) {
+        img {
+          width: 50%;
+          max-width: 50%;
+          height: auto;
+        }
       }
     </style>
   </head>
 
   <body>
-    <img src="lol0001.png" alt="Full screen image">
+    <img src="lol0001.png" alt="My image">
   </body>
 </html>
