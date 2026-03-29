@@ -8,22 +8,17 @@
         justify-content: center;
         align-items: center;
         height: 100vh;
-        background-color: #ffffff;
+        background-color: #f5f5f5;
       }
-
       .image-container {
         position: relative;
         max-width: 50%;
       }
-
-      /* Default image */
-      .image-container img.default {
+      .image-container img {
         width: 100%;
         height: auto;
         display: block;
       }
-
-      /* Hover images stacked and hidden initially */
       .image-container img.hover {
         position: absolute;
         top: 0;
@@ -31,128 +26,62 @@
         width: 100%;
         height: auto;
         opacity: 0;
-        pointer-events: none; /* prevents blocking hover */
         transition: opacity 0.3s ease;
+        pointer-events: none;
       }
-
-      /* Hover zones stacked on top */<!DOCTYPE html>
-<html>
-  <head>
-    <style>
-      body {
-        margin: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background-color: #ffffff;
-      }
-
-      .image-container {
-        position: relative;
-        width: 50%;
-        padding-top: 75%; /* maintain aspect ratio (4:3) */
-        background-image: url(lol0001.png);
-        background-size: cover;
-        background-position: center;
-      }
-
-      /* Hover zones */
-      .hover-zone {
-        position: absolute;
-        cursor: pointer;
-      }
-
-      /* Grid positions: 3 rows x 2 columns */
-      .zone1 { top: 0; left: 0; width: 50%; height: 33.33%; }
-      .zone2 { top: 0; left: 50%; width: 50%; height: 33.33%; }
-      .zone3 { top: 33.33%; left: 0; width: 50%; height: 33.33%; }
-      .zone4 { top: 33.33%; left: 50%; width: 50%; height: 33.33%; }
-      .zone5 { top: 66.66%; left: 0; width: 50%; height: 33.33%; }
-      .zone6 { top: 66.66%; left: 50%; width: 50%; height: 33.33%; }
-
-      /* Hover effect for each zone */
-      .zone1:hover ~ .image-container { background-image: url(lol0002.png); }
-      .zone2:hover ~ .image-container { background-image: url(lol0003.png); }
-      .zone3:hover ~ .image-container { background-image: url(lol0004.png); }
-      .zone4:hover ~ .image-container { background-image: url(lol0005.png); }
-      .zone5:hover ~ .image-container { background-image: url(lol0006.png); }
-      .zone6:hover ~ .image-container { background-image: url(lol0007.png); }
-
-      /* Ensure hover zones are on top */
-      .hover-zone {
-        z-index: 2;
-      }
-    </style>
-  </head>
-
-  <body>
-    <div class="hover-zone zone1"></div>
-    <div class="hover-zone zone2"></div>
-    <div class="hover-zone zone3"></div>
-    <div class="hover-zone zone4"></div>
-    <div class="hover-zone zone5"></div>
-    <div class="hover-zone zone6"></div>
-
-    <div class="image-container"></div>
-  </body>
-</html>
-      .hover-zone {
-        position: absolute;
-        width: 50%;
-        height: 33.33%;
-        cursor: pointer;
-      }
-
-      /* Grid positions */
-      .zone1 { top: 0; left: 0; }
-      .zone2 { top: 0; left: 50%; }
-      .zone3 { top: 33.33%; left: 0; }
-      .zone4 { top: 33.33%; left: 50%; }
-      .zone5 { top: 66.66%; left: 0; }
-      .zone6 { top: 66.66%; left: 50%; }
-
-      /* Hover effect using parent container */
-      .zone1:hover ~ .hover1,
-      .zone2:hover ~ .hover2,
-      .zone3:hover ~ .hover3,
-      .zone4:hover ~ .hover4,
-      .zone5:hover ~ .hover5,
-      .zone6:hover ~ .hover6 {
+      .image-container img.hover.active {
         opacity: 1;
       }
-
-      /* Ensure hover zones are on top */
       .hover-zone {
-        z-index: 2;
+        position: absolute;
+        cursor: pointer;
       }
-
-      .image-container img.hover {
-        z-index: 1;
-      }
+      /* 3 rows x 2 columns */
+      .zone1 { top: 0;       left: 0;   width: 50%; height: 33.33%; }
+      .zone2 { top: 0;       left: 50%; width: 50%; height: 33.33%; }
+      .zone3 { top: 33.33%;  left: 0;   width: 50%; height: 33.33%; }
+      .zone4 { top: 33.33%;  left: 50%; width: 50%; height: 33.33%; }
+      .zone5 { top: 66.66%;  left: 0;   width: 50%; height: 33.33%; }
+      .zone6 { top: 66.66%;  left: 50%; width: 50%; height: 33.33%; }
     </style>
   </head>
-
   <body>
     <div class="image-container">
       <!-- Default image -->
-      <img src="lol0001.png" alt="Default image" class="default">
+      <img src="lol0001.png" alt="Default image">
 
-      <!-- Hover images for each zone -->
-      <img src="lol0002.png" alt="Hover 1" class="hover hover1">
-      <img src="lol0003.png" alt="Hover 2" class="hover hover2">
-      <img src="lol0004.png" alt="Hover 3" class="hover hover3">
-      <img src="lol0005.png" alt="Hover 4" class="hover hover4">
-      <img src="lol0006.png" alt="Hover 5" class="hover hover5">
-      <img src="lol0007.png" alt="Hover 6" class="hover hover6">
+      <!-- One hover image per zone — update src filenames as needed -->
+      <img src="lol0002.png" alt="Zone 1 hover" class="hover" data-zone="1">
+      <img src="lol0003.png" alt="Zone 2 hover" class="hover" data-zone="2">
+      <img src="lol0004.png" alt="Zone 3 hover" class="hover" data-zone="3">
+      <img src="lol0005.png" alt="Zone 4 hover" class="hover" data-zone="4">
+      <img src="lol0006.png" alt="Zone 5 hover" class="hover" data-zone="5">
+      <img src="lol0007.png" alt="Zone 6 hover" class="hover" data-zone="6">
 
-      <!-- Transparent hover zones -->
-      <div class="hover-zone zone1"></div>
-      <div class="hover-zone zone2"></div>
-      <div class="hover-zone zone3"></div>
-      <div class="hover-zone zone4"></div>
-      <div class="hover-zone zone5"></div>
-      <div class="hover-zone zone6"></div>
+      <!-- Hover zones -->
+      <div class="hover-zone zone1" data-zone="1"></div>
+      <div class="hover-zone zone2" data-zone="2"></div>
+      <div class="hover-zone zone3" data-zone="3"></div>
+      <div class="hover-zone zone4" data-zone="4"></div>
+      <div class="hover-zone zone5" data-zone="5"></div>
+      <div class="hover-zone zone6" data-zone="6"></div>
     </div>
+
+    <script>
+      const zones = document.querySelectorAll('.hover-zone');
+
+      zones.forEach(zone => {
+        const zoneId = zone.dataset.zone;
+        const matchingImage = document.querySelector(`img.hover[data-zone="${zoneId}"]`);
+
+        zone.addEventListener('mouseenter', () => {
+          matchingImage.classList.add('active');
+        });
+
+        zone.addEventListener('mouseleave', () => {
+          matchingImage.classList.remove('active');
+        });
+      });
+    </script>
   </body>
 </html>
