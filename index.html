@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
       body {
         margin: 0;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        min-height: 100vh;
         background-color: #ffffff;
       }
       .image-container {
         position: relative;
-        max-width: 50%;
+        width: 90vw;
+        max-width: 600px;
       }
       .image-container img {
         width: 100%;
@@ -45,11 +47,11 @@
         Split into 2 cols and 3 rows.
       */
       .zone1 { top: 43%;   left: 33%;   width: 22%; height: 16.7%; } /* top-left     */
-      .zone2 { top: 43%;   left: 50%; width: 22%; height: 16.7%; } /* top-right    */
+      .zone2 { top: 43%;   left: 50%;   width: 22%; height: 16.7%; } /* top-right    */
       .zone3 { top: 59.7%; left: 33%;   width: 22%; height: 16.7%; } /* middle-left  */
-      .zone4 { top: 59.7%; left: 50%; width: 22%; height: 16.7%; } /* middle-right */
+      .zone4 { top: 59.7%; left: 50%;   width: 22%; height: 16.7%; } /* middle-right */
       .zone5 { top: 76.3%; left: 33%;   width: 22%; height: 16.7%; } /* bottom-left  */
-      .zone6 { top: 76.3%; left: 50%; width: 22%; height: 16.7%; } /* bottom-right */
+      .zone6 { top: 76.3%; left: 50%;   width: 22%; height: 16.7%; } /* bottom-right */
     </style>
   </head>
   <body>
@@ -65,7 +67,7 @@
       <img src="lol0006.png" alt="Zone 5 hover" class="hover" data-zone="5">
       <img src="lol0007.png" alt="Zone 6 hover" class="hover" data-zone="6">
 
-      <!-- Hover zones -->
+      <!-- Hover zones (also handle touch for mobile) -->
       <div class="hover-zone zone1" data-zone="1"></div>
       <div class="hover-zone zone2" data-zone="2"></div>
       <div class="hover-zone zone3" data-zone="3"></div>
@@ -81,13 +83,28 @@
         const zoneId = zone.dataset.zone;
         const matchingImage = document.querySelector(`img.hover[data-zone="${zoneId}"]`);
 
+        // Mouse events (desktop)
         zone.addEventListener('mouseenter', () => {
           matchingImage.classList.add('active');
         });
-
         zone.addEventListener('mouseleave', () => {
           matchingImage.classList.remove('active');
         });
+
+        // Touch events (mobile)
+        zone.addEventListener('touchstart', (e) => {
+          e.preventDefault();
+          // Clear all other active hover images first
+          document.querySelectorAll('img.hover.active').forEach(img => img.classList.remove('active'));
+          matchingImage.classList.add('active');
+        }, { passive: false });
+      });
+
+      // Tap anywhere outside a zone to reset on mobile
+      document.addEventListener('touchstart', (e) => {
+        if (!e.target.classList.contains('hover-zone')) {
+          document.querySelectorAll('img.hover.active').forEach(img => img.classList.remove('active'));
+        }
       });
     </script>
   </body>
