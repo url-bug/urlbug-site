@@ -2,23 +2,29 @@
 <html>
   <head>
     <style>
-      body {
+      html, body {
         margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+      }
+
+      body {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
-        background-color: #ffffff;
+        background-color: #000; /* fallback in case image has transparency */
       }
 
       img {
-        width: clamp(300px, 120%, 600px); /* bigger on mobile */
-        height: auto;
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* fills screen while keeping aspect ratio */
       }
     </style>
   </head>
 
   <body>
-    <img src="lol0001.png" alt="My image">
+    <img src="lol0001.png" alt="Full screen image">
   </body>
 </html>
