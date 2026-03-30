@@ -99,7 +99,7 @@
         zone.addEventListener('mouseenter', () => matchingImage.classList.add('active'));
         zone.addEventListener('mouseleave', () => matchingImage.classList.remove('active'));
         zone.addEventListener('click', () => {
-          window.open(zoneLinks[zoneId], '_blank');
+          window.open(zoneLinks[zoneId], '_self');
         });
 
         // Mobile: first tap shows image, second tap on same zone navigates
@@ -108,7 +108,7 @@
 
           if (activeZoneId === zoneId) {
             // Second tap on the same zone — navigate
-            window.open(zoneLinks[zoneId], '_blank');
+            window.open(zoneLinks[zoneId], '_self');
             activeZoneId = null;
           } else {
             // First tap — show image
