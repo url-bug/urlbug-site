@@ -8,18 +8,16 @@
         margin: 0;
         padding: 0;
       }
-      html, body {
-        overflow: hidden;
-        height: 100%;
-        width: 100%;
-        touch-action: none;
+      html {
+        overflow-x: clip;
       }
       body {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100dvh;
+        min-height: 100vh;
         background-color: #ffffff;
+        overflow-x: clip;
       }
       .image-container {
         position: relative;
@@ -27,12 +25,8 @@
       }
       @media (max-width: 1400px) {
         .image-container {
-          width: 90vw;
-          max-height: 90dvh;
-        }
-        .image-container img {
-          max-height: 90dvh;
-          object-fit: contain;
+          width: 200vw;
+          margin-top: -8vh;
         }
       }
       .image-container img {
