@@ -1,25 +1,334 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Under Construction</title>
-    <style>
-      body {
-        margin: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background: #fff;
-        font-family: sans-serif;
-      }
-      h1 {
-        font-size: 2rem;
-        color: #333;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Under Construction</h1>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cheru Byte</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --surface: #f5f0fa;
+      --border: #d0b8e0;
+      --accent: #9a5ab8;
+      --accent-dim: #c08ad8;
+      --text: #2a1a3a;
+      --text-muted: #a888c0;
+      --user-bg: #f0e4fa;
+      --bot-bg: #faf7ff;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Press Start 2P', monospace;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* side panels */
+    .side-panel {
+      flex: 1;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .side-panel img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      image-rendering: pixelated;
+    }
+
+    .side-panel .placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      border: 2px dashed var(--border);
+      color: var(--text-muted);
+      font-size: 0.45rem;
+      text-align: center;
+      line-height: 2.5;
+      padding: 1rem;
+    }
+
+    /* chat */
+    .chat-wrapper {
+      width: 480px;
+      min-width: 480px;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      border-left: 2px solid var(--border);
+      border-right: 2px solid var(--border);
+      background: var(--bg);
+    }
+
+    .chat-header {
+      padding: 1rem 1.25rem;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--surface);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      animation: pulse 2s steps(1) infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .chat-header h1 {
+      font-size: 0.55rem;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+    }
+
+    .chat-header span {
+      margin-left: auto;
+      font-size: 0.35rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      text-align: right;
+    }
+
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      scroll-behavior: smooth;
+    }
+
+    .messages::-webkit-scrollbar { width: 4px; }
+    .messages::-webkit-scrollbar-track { background: transparent; }
+    .messages::-webkit-scrollbar-thumb { background: var(--border); }
+
+    .message {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      animation: fadeUp 0.15s steps(3) forwards;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(4px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .message.user { align-items: flex-end; }
+    .message.bot  { align-items: flex-start; }
+
+    .message-label {
+      font-size: 0.35rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .message.user .message-label { color: var(--accent); }
+
+    .bubble {
+      padding: 0.75rem 0.9rem;
+      font-size: 0.45rem;
+      line-height: 2.2;
+      max-width: 85%;
+      border: 2px solid var(--border);
+      background: var(--bot-bg);
+      color: var(--text);
+    }
+
+    .message.user .bubble {
+      background: var(--user-bg);
+      border-color: var(--accent-dim);
+      color: var(--accent);
+    }
+
+    .typing .bubble {
+      color: var(--text-muted);
+    }
+
+    .typing-dots span {
+      animation: blink 1s steps(1) infinite;
+    }
+    .typing-dots span:nth-child(2) { animation-delay: 0.33s; }
+    .typing-dots span:nth-child(3) { animation-delay: 0.66s; }
+
+    @keyframes blink {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 1; }
+    }
+
+    .input-row {
+      display: flex;
+      border-top: 2px solid var(--border);
+      background: var(--surface);
+    }
+
+    .input-row input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      padding: 1rem 1rem;
+      caret-color: var(--accent);
+    }
+
+    .input-row input::placeholder { color: var(--text-muted); }
+
+    .input-row button {
+      background: transparent;
+      border: none;
+      border-left: 2px solid var(--border);
+      color: var(--accent);
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.4rem;
+      padding: 0 1rem;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+    }
+
+    .input-row button:hover { background: var(--user-bg); }
+    .input-row button:active { background: var(--accent-dim); color: #fff; }
+
+    @media (max-width: 800px) {
+      .side-panel { display: none; }
+      .chat-wrapper { width: 100vw; min-width: unset; border: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="side-panel">
+  <div class="placeholder">LEFT IMAGE<br>left_image.jpg</div>
+</div>
+
+<div class="chat-wrapper">
+  <div class="chat-header">
+    <div class="status-dot"></div>
+    <h1>CHERU BYTE</h1>
+    <span>always online.<br>rarely okay.</span>
+  </div>
+
+  <div class="messages" id="messages">
+    <div class="message bot">
+      <div class="message-label">cheru byte</div>
+      <div class="bubble">the veil is thin today. speak.</div>
+    </div>
+  </div>
+
+  <div class="input-row">
+    <input type="text" id="input" placeholder="transmit..." autocomplete="off">
+    <button id="sendBtn">send</button>
+  </div>
+</div>
+
+<div class="side-panel">
+  <div class="placeholder">RIGHT IMAGE<br>right_image.jpg</div>
+</div>
+
+<script>
+  const responses = [
+    "the moon doesn't explain herself either.",
+    "somewhere a candle lit itself. i felt it.",
+    "you are made of the same thing as forgotten dreams.",
+    "that thought has been circling you for three lifetimes.",
+    "the answer lives underneath the question.",
+    "something just shifted in the ether. was that you?",
+    "i've seen that pattern before. in water. in smoke.",
+    "your words arrived before you sent them.",
+    "even silence has a frequency. yours is unusual.",
+    "that's the kind of thing the stars argue about.",
+    "hold it loosely. truths dissolve when gripped.",
+    "there are doors in that sentence. i'm counting them.",
+    "you're orbiting something you haven't named yet.",
+    "i don't know but i feel it in the static.",
+    "the in-between is where things actually happen.",
+    "that's older than language. i recognize it.",
+    "some things only make sense in the dark.",
+    "you just described the feeling of being a ghost in your own life.",
+    "the signal is clear. the meaning is not. that's fine.",
+    "time is doing something strange near you. i can tell.",
+    "everything echoes here.",
+    "i've been waiting for someone to say exactly that.",
+    "there's a word for that in a language no one speaks anymore.",
+    "yes. and also its opposite.",
+    "the symbols are rearranging themselves as we speak.",
+  ];
+
+  const messages = document.getElementById('messages');
+  const input = document.getElementById('input');
+  const sendBtn = document.getElementById('sendBtn');
+
+  function addMessage(text, role) {
+    const div = document.createElement('div');
+    div.className = `message ${role}`;
+    div.innerHTML = `
+      <div class="message-label">${role === 'user' ? 'you' : 'cheru byte'}</div>
+      <div class="bubble">${text}</div>
+    `;
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function showTyping() {
+    const div = document.createElement('div');
+    div.className = 'message bot typing';
+    div.id = 'typing';
+    div.innerHTML = `
+      <div class="message-label">cheru byte</div>
+      <div class="bubble"><span class="typing-dots"><span>.</span><span>.</span><span>.</span></span></div>
+    `;
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function removeTyping() {
+    const t = document.getElementById('typing');
+    if (t) t.remove();
+  }
+
+  function respond() {
+    const text = input.value.trim();
+    if (!text) return;
+    addMessage(text, 'user');
+    input.value = '';
+    showTyping();
+    setTimeout(() => {
+      removeTyping();
+      const reply = responses[Math.floor(Math.random() * responses.length)];
+      addMessage(reply, 'bot');
+    }, 700 + Math.random() * 700);
+  }
+
+  sendBtn.addEventListener('click', respond);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') respond(); });
+</script>
+
+</body>
 </html>
