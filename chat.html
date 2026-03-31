@@ -7,21 +7,21 @@
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #ffffff;
-      --surface: #f5f0fa;
-      --border: #d0b8e0;
-      --accent: #9a5ab8;
-      --accent-dim: #c08ad8;
-      --text: #2a1a3a;
-      --text-muted: #a888c0;
-      --user-bg: #f0e4fa;
-      --bot-bg: #faf7ff;
+      --bg: #2a2030;
+      --surface: #1e1628;
+      --border: #6a4a8a;
+      --accent: #c090e8;
+      --accent-dim: #9060c0;
+      --text: #e8d8f8;
+      --text-muted: #9070b0;
+      --user-bg: #3a2848;
+      --bot-bg: #322540;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background: var(--bg);
+      background: #ffffff;
       color: var(--text);
       font-family: 'Press Start 2P', monospace;
       height: 100vh;
@@ -71,8 +71,25 @@
       height: 80vh;
       display: flex;
       flex-direction: column;
-      border: 2px solid var(--border);
+      border: 3px solid transparent;
       background: var(--bg);
+      border-image: repeating-linear-gradient(
+        90deg,
+        #9b30ff,
+        #c770f0,
+        #6a00cc,
+        #e040fb,
+        #9b30ff
+      ) 1;
+      box-shadow: 0 0 0 3px #1e1628, 0 0 0 6px #9b30ff, 0 0 18px 4px #7a20cc44;
+      animation: borderShimmer 4s linear infinite;
+      background-clip: padding-box;
+    }
+
+    @keyframes borderShimmer {
+      0%   { box-shadow: 0 0 0 3px #1e1628, 0 0 0 6px #9b30ff, 0 0 18px 4px #7a20cc44; }
+      50%  { box-shadow: 0 0 0 3px #1e1628, 0 0 0 6px #c770f0, 0 0 24px 6px #c770f066; }
+      100% { box-shadow: 0 0 0 3px #1e1628, 0 0 0 6px #9b30ff, 0 0 18px 4px #7a20cc44; }
     }
 
     .chat-header {
