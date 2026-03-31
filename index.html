@@ -13,11 +13,22 @@
       }
       body {
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         min-height: 100vh;
         background-color: #ffffff;
         overflow-x: clip;
+      }
+      .banner {
+        display: block;
+        width: 50vw;
+        height: auto;
+      }
+      @media (max-width: 1400px) {
+        .banner {
+          width: 200vw;
+        }
       }
       .image-container {
         position: relative;
@@ -60,6 +71,7 @@
     </style>
   </head>
   <body>
+    <img src="banner.jpg" alt="Banner" class="banner">
     <div class="image-container">
       <img src="lol0001.jpg" alt="Default image">
       <img src="lol0002.jpg" alt="Zone 1 hover" class="hover" data-zone="1">
