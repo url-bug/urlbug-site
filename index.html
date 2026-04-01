@@ -9,17 +9,16 @@
         padding: 0;
       }
       html {
-        overflow: hidden;
-        height: 100%;
+        overflow-x: clip;
       }
       body {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        height: 100%;
+        min-height: 100vh;
         background-color: #ffffff;
-        overflow: hidden;
+        overflow-x: clip;
       }
       .banner {
         display: block;
@@ -33,24 +32,24 @@
         width: 34vw;
         margin-top: -12vh;
       }
-      /* Catches CRT (1024-1280px wide) and tablet landscape */
-      @media (max-width: 1400px) {
+      /* Tablet portrait (e.g. 860px wide) */
+      @media (max-width: 1024px) and (min-width: 769px) {
         .banner {
-          width: 45vw;
+          width: 70vw;
         }
         .image-container {
-          width: 45vw;
-          margin-top: -7vh;
+          width: 70vw;
+          margin-top: -5vh;
         }
       }
-      /* Narrow/portrait mobile */
+      /* Phone portrait */
       @media (max-width: 768px) {
         .banner {
           width: 100vw;
         }
         .image-container {
           width: 100vw;
-          margin-top: -3vh;
+          margin-top: -6vh;
         }
       }
       .image-container img {
