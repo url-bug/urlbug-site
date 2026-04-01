@@ -13,20 +13,32 @@
       }
       body {
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         min-height: 100vh;
         background-color: #ffffff;
         overflow-x: clip;
       }
+      .banner {
+        display: block;
+        width: 34vw;
+        height: auto;
+        position: relative;
+        z-index: 1;
+      }
       .image-container {
         position: relative;
-        width: 50vw;
+        width: 34vw;
+        margin-top: -12vh;
       }
-      @media (max-width: 1400px) {
+      @media (max-width: 768px) {
+        .banner {
+          width: 100vw;
+        }
         .image-container {
-          width: 200vw;
-          margin-top: -8vh;
+          width: 100vw;
+          margin-top: -6vh;
         }
       }
       .image-container img {
@@ -60,6 +72,7 @@
     </style>
   </head>
   <body>
+    <img src="banner.png" alt="Banner" class="banner">
     <div class="image-container">
       <img src="lol0001.jpg" alt="Default image">
       <img src="lol0002.jpg" alt="Zone 1 hover" class="hover" data-zone="1">
@@ -79,23 +92,50 @@
     <script>
       const zones = document.querySelectorAll('.hover-zone');
 
+      // Map zone IDs to URLs — replace these with your actual links
+      const zoneLinks = {
+        '1': 'https://urlbug.love/portfolio',
+        '2': 'https://ko-fi.com/urlbug',
+        '3': 'https://urlbug.love/bio',
+        '4': 'https://urlbug.love/blog',
+        '5': 'https://urlbug.love/chat',
+        '6': 'https://urlbug.love/bots',
+      };
+
+      let activeZoneId = null; // tracks which zone was first-tapped on mobile
+
       zones.forEach(zone => {
         const zoneId = zone.dataset.zone;
         const matchingImage = document.querySelector(`img.hover[data-zone="${zoneId}"]`);
 
+        // Desktop: hover to show image, click to navigate
         zone.addEventListener('mouseenter', () => matchingImage.classList.add('active'));
         zone.addEventListener('mouseleave', () => matchingImage.classList.remove('active'));
+        zone.addEventListener('click', () => {
+          window.open(zoneLinks[zoneId], '_self');
+        });
 
+        // Mobile: first tap shows image, second tap on same zone navigates
         zone.addEventListener('touchstart', (e) => {
           e.preventDefault();
-          document.querySelectorAll('img.hover.active').forEach(img => img.classList.remove('active'));
-          matchingImage.classList.add('active');
+
+          if (activeZoneId === zoneId) {
+            // Second tap on the same zone — navigate
+            window.open(zoneLinks[zoneId], '_self');
+            activeZoneId = null;
+          } else {
+            // First tap — show image
+            document.querySelectorAll('img.hover.active').forEach(img => img.classList.remove('active'));
+            matchingImage.classList.add('active');
+            activeZoneId = zoneId;
+          }
         }, { passive: false });
       });
 
       document.addEventListener('touchstart', (e) => {
         if (!e.target.classList.contains('hover-zone')) {
           document.querySelectorAll('img.hover.active').forEach(img => img.classList.remove('active'));
+          activeZoneId = null;
         }
       });
     </script>
