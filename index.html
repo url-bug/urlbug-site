@@ -32,14 +32,24 @@
         width: 34vw;
         margin-top: -12vh;
       }
-      /* Tablet portrait + CRT monitors (769px–1400px wide) */
-      @media (max-width: 1400px) and (min-width: 769px) {
+      /* Tablet portrait (769px–1024px wide, taller than wide) */
+      @media (max-width: 1024px) and (min-width: 769px) and (orientation: portrait) {
         .banner {
           width: 70vw;
         }
         .image-container {
           width: 70vw;
           margin-top: -5vh;
+        }
+      }
+      /* CRT monitors (1025px–1400px wide, landscape/square aspect) */
+      @media (max-width: 1400px) and (min-width: 1025px) {
+        .banner {
+          width: 50vw;
+        }
+        .image-container {
+          width: 50vw;
+          margin-top: -8vh;
         }
       }
       /* Phone portrait */
