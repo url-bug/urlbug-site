@@ -9,16 +9,17 @@
         padding: 0;
       }
       html {
-        overflow-x: clip;
+        overflow: hidden;
+        height: 100%;
       }
       body {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        min-height: 100vh;
+        height: 100%;
         background-color: #ffffff;
-        overflow-x: clip;
+        overflow: hidden;
       }
       .banner {
         display: block;
@@ -35,11 +36,11 @@
       /* Catches CRT (1024-1280px wide) and tablet landscape */
       @media (max-width: 1400px) {
         .banner {
-          width: 60vw;
+          width: 45vw;
         }
         .image-container {
-          width: 60vw;
-          margin-top: -3vh;
+          width: 45vw;
+          margin-top: -7vh;
         }
       }
       /* Narrow/portrait mobile */
