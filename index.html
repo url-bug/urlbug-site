@@ -32,13 +32,24 @@
         width: 34vw;
         margin-top: -12vh;
       }
+      /* Catches CRT (1024-1280px wide) and tablet landscape */
+      @media (max-width: 1400px) {
+        .banner {
+          width: 60vw;
+        }
+        .image-container {
+          width: 60vw;
+          margin-top: -3vh;
+        }
+      }
+      /* Narrow/portrait mobile */
       @media (max-width: 768px) {
         .banner {
           width: 100vw;
         }
         .image-container {
           width: 100vw;
-          margin-top: -6vh;
+          margin-top: -3vh;
         }
       }
       .image-container img {
