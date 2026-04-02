@@ -10,41 +10,34 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0a0a0a;
-      --green: #cc88ff;
-      --green-dim: #6633aa;
-      --green-glow: rgba(204, 136, 255, 0.15);
-      --amber: #ffaa00;
-      --card-bg: #0d0d0d;
-      --border: #cc88ff;
-      --overlay: rgba(0, 0, 0, 0.95);
+      --bg: #ffffff;
+      --purple: #5500cc;
+      --purple-dim: #9966dd;
+      --purple-glow: rgba(85, 0, 204, 0.12);
+      --amber: #cc6600;
+      --card-bg: #ffffff;
+      --border: #5500cc;
+      --overlay: rgba(255, 255, 255, 0.97);
       --font: 'Share Tech Mono', 'Courier New', monospace;
+      --ink: #1a0040;
     }
 
     html { cursor: default; }
 
     body {
       background: var(--bg);
-      color: var(--green);
+      color: var(--purple);
       font-family: var(--font);
       min-height: 100vh;
-      /* CRT scanlines */
-      background-image: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0,0,0,0.18) 2px,
-        rgba(0,0,0,0.18) 4px
-      );
     }
 
     /* subtle screen flicker */
     @keyframes flicker {
       0%,100% { opacity: 1; }
       92% { opacity: 1; }
-      93% { opacity: 0.94; }
+      93% { opacity: 0.96; }
       94% { opacity: 1; }
-      96% { opacity: 0.97; }
+      96% { opacity: 0.98; }
     }
     body { animation: flicker 8s infinite; }
 
@@ -53,8 +46,9 @@
 
     /* ── Header wordmark ── */
     header {
-      border-bottom: 1px solid var(--green-dim);
+      border-bottom: 1px solid var(--purple-dim);
       padding: 2rem 5vw;
+      background: #ffffff;
     }
 
     .header-wordmark {
@@ -67,8 +61,8 @@
       font-family: 'Press Start 2P', monospace;
       font-size: clamp(1.1rem, 2.5vw, 1.6rem);
       font-weight: 400;
-      color: var(--green);
-      text-shadow: 0 0 12px rgba(204,136,255,0.3);
+      color: var(--purple);
+      text-shadow: 2px 2px 0px rgba(85,0,204,0.15);
       letter-spacing: 0.02em;
     }
 
@@ -76,25 +70,26 @@
       display: inline-block;
       width: 0.75em;
       height: 1.4em;
-      background: #aa44ff;
+      background: var(--purple);
       animation: blink 1s step-end infinite;
       vertical-align: -0.15em;
       margin-left: 0.2em;
-      box-shadow: 0 0 8px rgba(170,68,255,0.5);
+      box-shadow: 2px 2px 0 rgba(85,0,204,0.3);
     }
 
     /* ── Prompt bar ── */
     .prompt-bar {
       padding: 0.5rem 5vw;
       font-size: 0.72rem;
-      color: var(--green-dim);
+      color: var(--purple-dim);
       letter-spacing: 0.05em;
-      border-bottom: 1px solid var(--green-dim);
+      border-bottom: 1px solid var(--purple-dim);
       display: flex;
       gap: 3rem;
+      background: #ffffff;
     }
 
-    .prompt-bar span { color: var(--green); }
+    .prompt-bar span { color: var(--purple); }
 
     /* ── Grid ── */
     main {
@@ -104,12 +99,12 @@
     .section-label {
       font-size: 0.7rem;
       letter-spacing: 0.15em;
-      color: var(--green-dim);
+      color: var(--purple-dim);
       margin-bottom: 1.5rem;
       text-transform: uppercase;
     }
 
-    .section-label::before { content: 'C:\\PORTFOLIO> '; color: #33ff33; }
+    .section-label::before { content: 'C:\\PORTFOLIO> '; color: #33cc66; }
 
     .grid {
       display: grid;
@@ -120,16 +115,16 @@
     /* ── Card ── */
     .card {
       cursor: pointer;
-      background: #000;
-      border: 1px solid var(--green-dim);
+      background: var(--card-bg);
+      border: 1px solid var(--purple-dim);
       overflow: hidden;
       transition: border-color 0.15s, box-shadow 0.15s;
       position: relative;
     }
 
     .card:hover {
-      border-color: var(--green);
-      box-shadow: 0 0 12px var(--green-glow), inset 0 0 12px var(--green-glow);
+      border-color: var(--purple);
+      box-shadow: 4px 4px 0px rgba(85,0,204,0.2), 0 0 16px var(--purple-glow);
     }
 
     .card:hover .thumb-overlay { opacity: 1; }
@@ -139,7 +134,7 @@
       position: relative;
       aspect-ratio: 4/3;
       overflow: hidden;
-      background: #000;
+      background: #ffffff;
     }
 
     .thumb-wrap img {
@@ -147,7 +142,7 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      filter: sepia(0.15) saturate(0.85) brightness(0.9);
+      filter: sepia(0.2) saturate(0.8) brightness(0.95);
       transition: filter 0.3s;
     }
 
@@ -156,7 +151,7 @@
     .thumb-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(0,0,0,0.55);
+      background: rgba(240,236,224,0.6);
       opacity: 0;
       transition: opacity 0.2s;
       display: flex;
@@ -164,18 +159,18 @@
       justify-content: center;
       font-size: 0.7rem;
       letter-spacing: 0.18em;
-      color: var(--green);
-      text-shadow: 0 0 8px var(--green);
+      color: var(--purple);
+      text-shadow: none;
     }
 
     .card-body {
       padding: 0.9rem 1rem 1.1rem;
-      border-top: 1px solid var(--green-dim);
+      border-top: 1px solid var(--purple-dim);
     }
 
     .card-num {
       font-size: 0.65rem;
-      color: var(--green-dim);
+      color: var(--purple-dim);
       letter-spacing: 0.1em;
       margin-bottom: 0.3rem;
       transition: color 0.15s;
@@ -187,12 +182,12 @@
       font-size: 0.95rem;
       letter-spacing: 0.04em;
       margin-bottom: 0.4rem;
-      text-shadow: 0 0 6px var(--green-glow);
+      color: var(--ink);
     }
 
     .card-body p {
       font-size: 0.78rem;
-      color: var(--green-dim);
+      color: var(--purple-dim);
       line-height: 1.65;
     }
 
@@ -221,23 +216,22 @@
       align-items: center;
       justify-content: space-between;
       padding: 0.8rem 1.5rem;
-      border-bottom: 1px solid var(--green-dim);
-      background: #000;
+      border-bottom: 1px solid var(--purple-dim);
+      background: #ffffff;
     }
 
     .lb-title {
       font-size: 0.85rem;
-      color: var(--green);
+      color: var(--purple);
       letter-spacing: 0.1em;
-      text-shadow: 0 0 8px var(--green);
     }
 
     .lb-title::before { content: '▶ '; color: var(--amber); }
 
     .lb-close {
       background: none;
-      border: 1px solid var(--green-dim);
-      color: var(--green);
+      border: 1px solid var(--purple-dim);
+      color: var(--purple);
       width: 2rem;
       height: 2rem;
       cursor: pointer;
@@ -250,8 +244,8 @@
     }
 
     .lb-close:hover {
-      border-color: var(--green);
-      box-shadow: 0 0 8px var(--green-glow);
+      border-color: var(--purple);
+      box-shadow: 2px 2px 0 rgba(85,0,204,0.2);
     }
 
     .lb-body {
@@ -267,24 +261,30 @@
       justify-content: center;
       padding: 1.5rem;
       position: relative;
-      background: #000;
+      background: #ffffff;
     }
 
-    .lb-main img {
+    .lb-main img,
+    .lb-main video {
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
       display: block;
-      box-shadow: 0 0 40px rgba(204,136,255,0.08);
+      box-shadow: 4px 4px 0px rgba(85,0,204,0.15);
+    }
+
+    .lb-main video {
+      width: 100%;
+      background: #1a0040;
     }
 
     .lb-nav {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      background: rgba(0,0,0,0.7);
-      border: 1px solid var(--green-dim);
-      color: var(--green);
+      background: rgba(255,255,255,0.85);
+      border: 1px solid var(--purple-dim);
+      color: var(--purple);
       width: 2.4rem;
       height: 2.4rem;
       cursor: pointer;
@@ -297,13 +297,13 @@
     }
 
     .lb-nav:hover {
-      border-color: var(--green);
-      box-shadow: 0 0 8px var(--green-glow);
+      border-color: var(--purple);
+      box-shadow: 2px 2px 0 rgba(85,0,204,0.2);
     }
 
     .lb-nav.prev { left: 0.75rem; }
     .lb-nav.next { right: 0.75rem; }
-    .lb-nav:disabled { opacity: 0.2; cursor: default; box-shadow: none; border-color: var(--green-dim); }
+    .lb-nav:disabled { opacity: 0.25; cursor: default; box-shadow: none; border-color: var(--purple-dim); }
 
     .lb-strip {
       flex-shrink: 0;
@@ -313,36 +313,56 @@
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
-      background: #000;
-      border-left: 1px solid var(--green-dim);
+      background: #ffffff;
+      border-left: 1px solid var(--purple-dim);
     }
 
     .lb-strip::-webkit-scrollbar { width: 3px; }
-    .lb-strip::-webkit-scrollbar-thumb { background: var(--green-dim); }
+    .lb-strip::-webkit-scrollbar-thumb { background: var(--purple-dim); }
 
     .lb-thumb {
       aspect-ratio: 1;
       object-fit: cover;
       cursor: pointer;
-      opacity: 0.4;
+      opacity: 0.45;
       border: 1px solid transparent;
       transition: opacity 0.15s, border-color 0.15s;
       width: 100%;
     }
 
-    .lb-thumb.active, .lb-thumb:hover {
+    /* video thumb placeholder in strip */
+    .lb-thumb-video {
+      aspect-ratio: 1;
+      width: 100%;
+      cursor: pointer;
+      opacity: 0.45;
+      border: 1px solid transparent;
+      transition: opacity 0.15s, border-color 0.15s;
+      background: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      color: var(--purple-dim);
+      user-select: none;
+    }
+
+    .lb-thumb.active,
+    .lb-thumb:hover,
+    .lb-thumb-video.active,
+    .lb-thumb-video:hover {
       opacity: 1;
-      border-color: var(--green);
+      border-color: var(--purple);
     }
 
     .lb-info {
       flex-shrink: 0;
       padding: 0.6rem 1.5rem 1rem;
       font-size: 0.75rem;
-      color: var(--green-dim);
+      color: var(--purple-dim);
       line-height: 1.7;
-      background: #000;
-      border-top: 1px solid var(--green-dim);
+      background: #ffffff;
+      border-top: 1px solid var(--purple-dim);
     }
 
     .lb-counter {
@@ -388,7 +408,8 @@
   <div class="lb-body">
     <div class="lb-main">
       <button class="lb-nav prev" id="lb-prev" aria-label="Previous">‹</button>
-      <img id="lb-img" src="" alt="" />
+      <img id="lb-img" src="" alt="" style="display:none" />
+      <video id="lb-video" controls style="display:none"></video>
       <button class="lb-nav next" id="lb-next" aria-label="Next">›</button>
     </div>
     <div class="lb-strip" id="lb-strip"></div>
@@ -401,14 +422,13 @@
 
 <script>
   // ── PROJECT DATA ─────────────────────────────────────────────────────────────
-  // Replace the `images` arrays with real URLs or local file paths.
-  // The first image in each array is used as the grid thumbnail.
   const projects = [
     {
       title: "churubyte",
       body: "fallen angel",
       images: [
         "cherubyte.png",
+	"fallenangel.mp4",
       ]
     },
     {
@@ -416,7 +436,7 @@
       body: "is bite not also a form of touch?",
       images: [
         "benicetome.png",
-	"benicetome2.png",
+        "benicetome2.png",
       ]
     },
     {
@@ -434,8 +454,8 @@
       images: [
         "kumo2.png",
         "kumo1.png",
-	"lsp1.png",
-	"lsp2.png",
+        "lsp1.png",
+        "lsp2.png",
       ]
     },
     {
@@ -445,7 +465,7 @@
         "1.jpg",
         "2.jpg",
         "3.jpg",
-	"4.png",
+        "4.png",
       ]
     },
     {
@@ -454,8 +474,8 @@
       images: [
         "mockup2.png",
         "mockup1.png",
-	"mockup3.png",
-	"jacket.png",
+        "mockup3.png",
+        "jacket.png",
       ]
     },
     {
@@ -479,10 +499,15 @@
       images: [
         "spareparts1.jpg",
         "spareparts2.jpg",
-	"spareparts3.jpg",
+        "spareparts3.jpg",
       ]
     },
   ];
+
+  // ── HELPERS ──────────────────────────────────────────────────────────────────
+  function isVideo(src) {
+    return /\.mp4$/i.test(src);
+  }
 
   // ── BUILD GRID ───────────────────────────────────────────────────────────────
   const grid = document.getElementById('grid');
@@ -491,9 +516,14 @@
     const card = document.createElement('div');
     card.className = 'card';
     const num = String(i + 1).padStart(2, '0');
+    const thumbSrc = proj.images[0];
+    const thumbEl = isVideo(thumbSrc)
+      ? `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#1a0040;font-size:2rem;color:#9966dd;">▶</div>`
+      : `<img src="${thumbSrc}" alt="${proj.title}" loading="lazy" />`;
+
     card.innerHTML = `
       <div class="thumb-wrap">
-        <img src="${proj.images[0]}" alt="${proj.title}" loading="lazy" />
+        ${thumbEl}
         <div class="thumb-overlay">[ OPEN FILE ]</div>
       </div>
       <div class="card-body">
@@ -516,6 +546,7 @@
   const lightbox = document.getElementById('lightbox');
   const lbTitle  = document.getElementById('lb-title');
   const lbImg    = document.getElementById('lb-img');
+  const lbVideo  = document.getElementById('lb-video');
   const lbStrip  = document.getElementById('lb-strip');
   const lbDesc   = document.getElementById('lb-desc');
   const lbCounter= document.getElementById('lb-counter');
@@ -536,11 +567,20 @@
     lbStrip.innerHTML = '';
     if (proj.images.length > 1) {
       proj.images.forEach((src, i) => {
-        const t = document.createElement('img');
-        t.src = src;
-        t.className = 'lb-thumb' + (i === imgIdx ? ' active' : '');
-        t.addEventListener('click', () => showImage(i));
-        lbStrip.appendChild(t);
+        if (isVideo(src)) {
+          const t = document.createElement('div');
+          t.className = 'lb-thumb-video' + (i === imgIdx ? ' active' : '');
+          t.textContent = '▶';
+          t.title = 'video';
+          t.addEventListener('click', () => showImage(i));
+          lbStrip.appendChild(t);
+        } else {
+          const t = document.createElement('img');
+          t.src = src;
+          t.className = 'lb-thumb' + (i === imgIdx ? ' active' : '');
+          t.addEventListener('click', () => showImage(i));
+          lbStrip.appendChild(t);
+        }
       });
     }
 
@@ -552,20 +592,36 @@
   function showImage(imgIdx) {
     const proj = projects[current.proj];
     current.img = imgIdx;
-    lbImg.src = proj.images[imgIdx];
-    lbImg.alt = `${proj.title} — image ${imgIdx + 1}`;
+    const src = proj.images[imgIdx];
+
     lbCounter.textContent = `${imgIdx + 1} / ${proj.images.length}`;
     lbPrev.disabled = imgIdx === 0;
     lbNext.disabled = imgIdx === proj.images.length - 1;
 
+    if (isVideo(src)) {
+      lbImg.style.display = 'none';
+      lbVideo.style.display = 'block';
+      lbVideo.src = src;
+      lbVideo.load();
+    } else {
+      lbVideo.style.display = 'none';
+      lbVideo.pause();
+      lbVideo.src = '';
+      lbImg.style.display = 'block';
+      lbImg.src = src;
+      lbImg.alt = `${proj.title} — image ${imgIdx + 1}`;
+    }
+
     // update strip
-    lbStrip.querySelectorAll('.lb-thumb').forEach((t, i) => {
+    lbStrip.querySelectorAll('.lb-thumb, .lb-thumb-video').forEach((t, i) => {
       t.classList.toggle('active', i === imgIdx);
     });
   }
 
   function closeLightbox() {
     lightbox.classList.remove('open');
+    lbVideo.pause();
+    lbVideo.src = '';
     document.body.style.overflow = '';
   }
 
