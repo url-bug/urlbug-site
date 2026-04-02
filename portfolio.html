@@ -1,25 +1,638 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Under Construction</title>
-    <style>
-      body {
-        margin: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background: #fff;
-        font-family: sans-serif;
-      }
-      h1 {
-        font-size: 2rem;
-        color: #333;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Under Construction</h1>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Press+Start+2P&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --green: #cc88ff;
+      --green-dim: #6633aa;
+      --green-glow: rgba(204, 136, 255, 0.15);
+      --amber: #ffaa00;
+      --card-bg: #0d0d0d;
+      --border: #cc88ff;
+      --overlay: rgba(0, 0, 0, 0.95);
+      --font: 'Share Tech Mono', 'Courier New', monospace;
+    }
+
+    html { cursor: default; }
+
+    body {
+      background: var(--bg);
+      color: var(--green);
+      font-family: var(--font);
+      min-height: 100vh;
+      /* CRT scanlines */
+      background-image: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.18) 2px,
+        rgba(0,0,0,0.18) 4px
+      );
+    }
+
+    /* subtle screen flicker */
+    @keyframes flicker {
+      0%,100% { opacity: 1; }
+      92% { opacity: 1; }
+      93% { opacity: 0.94; }
+      94% { opacity: 1; }
+      96% { opacity: 0.97; }
+    }
+    body { animation: flicker 8s infinite; }
+
+    /* blinking cursor */
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+    /* ── Header wordmark ── */
+    header {
+      border-bottom: 1px solid var(--green-dim);
+      padding: 2rem 5vw;
+    }
+
+    .header-wordmark {
+      display: flex;
+      align-items: center;
+      line-height: 1;
+    }
+
+    .wordmark-text {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+      font-weight: 400;
+      color: var(--green);
+      text-shadow: 0 0 12px rgba(204,136,255,0.3);
+      letter-spacing: 0.02em;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 0.75em;
+      height: 1.4em;
+      background: #aa44ff;
+      animation: blink 1s step-end infinite;
+      vertical-align: -0.15em;
+      margin-left: 0.2em;
+      box-shadow: 0 0 8px rgba(170,68,255,0.5);
+    }
+
+    /* ── Prompt bar ── */
+    .prompt-bar {
+      padding: 0.5rem 5vw;
+      font-size: 0.72rem;
+      color: var(--green-dim);
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--green-dim);
+      display: flex;
+      gap: 3rem;
+    }
+
+    .prompt-bar span { color: var(--green); }
+
+    /* ── Grid ── */
+    main {
+      padding: 2.5rem 5vw 6rem;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: var(--green-dim);
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+    }
+
+    .section-label::before { content: 'C:\\PORTFOLIO> '; color: #33ff33; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* ── Card ── */
+    .card {
+      cursor: pointer;
+      background: #000;
+      border: 1px solid var(--green-dim);
+      overflow: hidden;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      position: relative;
+    }
+
+    .card:hover {
+      border-color: var(--green);
+      box-shadow: 0 0 12px var(--green-glow), inset 0 0 12px var(--green-glow);
+    }
+
+    .card:hover .thumb-overlay { opacity: 1; }
+    .card:hover .card-num { color: var(--amber); }
+
+    .thumb-wrap {
+      position: relative;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .thumb-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: sepia(0.15) saturate(0.85) brightness(0.9);
+      transition: filter 0.3s;
+    }
+
+    .card:hover .thumb-wrap img { filter: sepia(0) saturate(1) brightness(1); }
+
+    .thumb-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      opacity: 0;
+      transition: opacity 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      color: var(--green);
+      text-shadow: 0 0 8px var(--green);
+    }
+
+    .card-body {
+      padding: 0.9rem 1rem 1.1rem;
+      border-top: 1px solid var(--green-dim);
+    }
+
+    .card-num {
+      font-size: 0.65rem;
+      color: var(--green-dim);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.3rem;
+      transition: color 0.15s;
+    }
+
+    .card-body h2 {
+      font-family: var(--font);
+      font-weight: 400;
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.4rem;
+      text-shadow: 0 0 6px var(--green-glow);
+    }
+
+    .card-body p {
+      font-size: 0.78rem;
+      color: var(--green-dim);
+      line-height: 1.65;
+    }
+
+    /* ── Lightbox ── */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: var(--overlay);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      font-family: var(--font);
+    }
+
+    .lightbox.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .lb-header {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.8rem 1.5rem;
+      border-bottom: 1px solid var(--green-dim);
+      background: #000;
+    }
+
+    .lb-title {
+      font-size: 0.85rem;
+      color: var(--green);
+      letter-spacing: 0.1em;
+      text-shadow: 0 0 8px var(--green);
+    }
+
+    .lb-title::before { content: '▶ '; color: var(--amber); }
+
+    .lb-close {
+      background: none;
+      border: 1px solid var(--green-dim);
+      color: var(--green);
+      width: 2rem;
+      height: 2rem;
+      cursor: pointer;
+      font-family: var(--font);
+      font-size: 0.8rem;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lb-close:hover {
+      border-color: var(--green);
+      box-shadow: 0 0 8px var(--green-glow);
+    }
+
+    .lb-body {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    .lb-main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      position: relative;
+      background: #000;
+    }
+
+    .lb-main img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+      box-shadow: 0 0 40px rgba(204,136,255,0.08);
+    }
+
+    .lb-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.7);
+      border: 1px solid var(--green-dim);
+      color: var(--green);
+      width: 2.4rem;
+      height: 2.4rem;
+      cursor: pointer;
+      font-family: var(--font);
+      font-size: 1rem;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lb-nav:hover {
+      border-color: var(--green);
+      box-shadow: 0 0 8px var(--green-glow);
+    }
+
+    .lb-nav.prev { left: 0.75rem; }
+    .lb-nav.next { right: 0.75rem; }
+    .lb-nav:disabled { opacity: 0.2; cursor: default; box-shadow: none; border-color: var(--green-dim); }
+
+    .lb-strip {
+      flex-shrink: 0;
+      width: 100px;
+      overflow-y: auto;
+      padding: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      background: #000;
+      border-left: 1px solid var(--green-dim);
+    }
+
+    .lb-strip::-webkit-scrollbar { width: 3px; }
+    .lb-strip::-webkit-scrollbar-thumb { background: var(--green-dim); }
+
+    .lb-thumb {
+      aspect-ratio: 1;
+      object-fit: cover;
+      cursor: pointer;
+      opacity: 0.4;
+      border: 1px solid transparent;
+      transition: opacity 0.15s, border-color 0.15s;
+      width: 100%;
+    }
+
+    .lb-thumb.active, .lb-thumb:hover {
+      opacity: 1;
+      border-color: var(--green);
+    }
+
+    .lb-info {
+      flex-shrink: 0;
+      padding: 0.6rem 1.5rem 1rem;
+      font-size: 0.75rem;
+      color: var(--green-dim);
+      line-height: 1.7;
+      background: #000;
+      border-top: 1px solid var(--green-dim);
+    }
+
+    .lb-counter {
+      color: var(--amber);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.2rem;
+    }
+
+    .lb-counter::before { content: 'FILE '; }
+
+    @media (max-width: 600px) {
+      .lb-strip { display: none; }
+      .prompt-bar { flex-direction: column; gap: 0.3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-wordmark">
+    <span class="wordmark-text">URLbug.ptflo</span><span class="cursor"></span>
+  </div>
+</header>
+
+<div class="prompt-bar">
+  <span>DRIVE: <span>C:\</span></span>
+  <span>MEM: <span>640K</span></span>
+  <span>DATE: <span id="dos-date"></span></span>
+</div>
+
+<main>
+  <div class="section-label">DIR /W</div>
+  <div class="grid" id="grid"></div>
+</main>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+  <div class="lb-header">
+    <span class="lb-title" id="lb-title"></span>
+    <button class="lb-close" id="lb-close" aria-label="Close">✕</button>
+  </div>
+  <div class="lb-body">
+    <div class="lb-main">
+      <button class="lb-nav prev" id="lb-prev" aria-label="Previous">‹</button>
+      <img id="lb-img" src="" alt="" />
+      <button class="lb-nav next" id="lb-next" aria-label="Next">›</button>
+    </div>
+    <div class="lb-strip" id="lb-strip"></div>
+  </div>
+  <div class="lb-info">
+    <div class="lb-counter" id="lb-counter"></div>
+    <div id="lb-desc"></div>
+  </div>
+</div>
+
+<script>
+  // ── PROJECT DATA ─────────────────────────────────────────────────────────────
+  // Replace the `images` arrays with real URLs or local file paths.
+  // The first image in each array is used as the grid thumbnail.
+  const projects = [
+    {
+      title: "Project One",
+      body: "A short description of the project goes here. Keep it two or three sentences.",
+      images: [
+        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80",
+        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200&q=80",
+      ]
+    },
+    {
+      title: "Project Two",
+      body: "Another project description. Explain the context, your role, or the outcome.",
+      images: [
+        "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1200&q=80",
+        "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=1200&q=80",
+      ]
+    },
+    {
+      title: "Project Three",
+      body: "Design work, photography, writing — whatever you'd like to showcase here.",
+      images: [
+        "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=1200&q=80",
+        "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1200&q=80",
+        "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1200&q=80",
+        "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1200&q=80",
+      ]
+    },
+    {
+      title: "Project Four",
+      body: "Feel free to add as many projects as you like — the grid adapts automatically.",
+      images: [
+        "https://images.unsplash.com/photo-1518791841217-8f162f1912da?w=1200&q=80",
+        "https://images.unsplash.com/photo-1561037404-61cd46aa615b?w=1200&q=80",
+      ]
+    },
+    {
+      title: "Project Five",
+      body: "Swap in your own image URLs or local paths. Supports any number of images per project.",
+      images: [
+        "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200&q=80",
+        "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200&q=80",
+        "https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=1200&q=80",
+      ]
+    },
+    {
+      title: "Project Six",
+      body: "Each card opens a full lightbox viewer with a thumbnail strip for multi-image browsing.",
+      images: [
+        "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1200&q=80",
+        "https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=1200&q=80",
+      ]
+    },
+    {
+      title: "Project Seven",
+      body: "Replace this with your own project title, description, and images.",
+      images: [
+        "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=1200&q=80",
+        "https://images.unsplash.com/photo-1490750967868-88df5691cc11?w=1200&q=80",
+      ]
+    },
+    {
+      title: "Project Eight",
+      body: "Replace this with your own project title, description, and images.",
+      images: [
+        "https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?w=1200&q=80",
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&q=80",
+        "https://images.unsplash.com/photo-1516912481808-3406841bd33c?w=1200&q=80",
+      ]
+    },
+    {
+      title: "Project Nine",
+      body: "Replace this with your own project title, description, and images.",
+      images: [
+        "https://images.unsplash.com/photo-1534430480872-3498386e7856?w=1200&q=80",
+        "https://images.unsplash.com/photo-1504198458649-3128b932f49e?w=1200&q=80",
+      ]
+    },
+    {
+      title: "Project Ten",
+      body: "Replace this with your own project title, description, and images.",
+      images: [
+        "https://images.unsplash.com/photo-1540979388789-6cee28a1cdc9?w=1200&q=80",
+        "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=1200&q=80",
+        "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=1200&q=80",
+      ]
+    },
+    {
+      title: "Project Eleven",
+      body: "Replace this with your own project title, description, and images.",
+      images: [
+        "https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?w=1200&q=80",
+        "https://images.unsplash.com/photo-1517849845537-4d257902454a?w=1200&q=80",
+      ]
+    },
+    {
+      title: "Project Twelve",
+      body: "Replace this with your own project title, description, and images.",
+      images: [
+        "https://images.unsplash.com/photo-1511732351157-1865efcb7b7b?w=1200&q=80",
+        "https://images.unsplash.com/photo-1444464666168-49d633b86797?w=1200&q=80",
+        "https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=1200&q=80",
+      ]
+    },
+    {
+      title: "Project Thirteen",
+      body: "Replace this with your own project title, description, and images.",
+      images: [
+        "https://images.unsplash.com/photo-1494256997604-768d1f608cac?w=1200&q=80",
+        "https://images.unsplash.com/photo-1478098711619-5ab0b478d6e6?w=1200&q=80",
+      ]
+    },
+    {
+      title: "Project Fourteen",
+      body: "Replace this with your own project title, description, and images.",
+      images: [
+        "https://images.unsplash.com/photo-1504006833117-8886a355efbf?w=1200&q=80",
+        "https://images.unsplash.com/photo-1485833077593-4278bba3f11f?w=1200&q=80",
+        "https://images.unsplash.com/photo-1474511320723-9a56873867b5?w=1200&q=80",
+      ]
+    },
+    {
+      title: "Project Fifteen",
+      body: "Replace this with your own project title, description, and images.",
+      images: [
+        "https://images.unsplash.com/photo-1437622368342-7a3d73a34c8f?w=1200&q=80",
+        "https://images.unsplash.com/photo-1459246347239-baca66bbd54c?w=1200&q=80",
+      ]
+    },
+  ];
+
+  // ── BUILD GRID ───────────────────────────────────────────────────────────────
+  const grid = document.getElementById('grid');
+
+  projects.forEach((proj, i) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    const num = String(i + 1).padStart(2, '0');
+    card.innerHTML = `
+      <div class="thumb-wrap">
+        <img src="${proj.images[0]}" alt="${proj.title}" loading="lazy" />
+        <div class="thumb-overlay">[ OPEN FILE ]</div>
+      </div>
+      <div class="card-body">
+        <div class="card-num">FILE_${num}.PRJ</div>
+        <h2>${proj.title}</h2>
+        <p>${proj.body}</p>
+      </div>
+    `;
+    card.addEventListener('click', () => openLightbox(i, 0));
+    grid.appendChild(card);
+  });
+
+  // DOS date
+  const d = new Date();
+  const pad = n => String(n).padStart(2,'0');
+  document.getElementById('dos-date').textContent =
+    `${pad(d.getMonth()+1)}-${pad(d.getDate())}-${d.getFullYear()}`;
+
+  // ── LIGHTBOX ─────────────────────────────────────────────────────────────────
+  const lightbox = document.getElementById('lightbox');
+  const lbTitle  = document.getElementById('lb-title');
+  const lbImg    = document.getElementById('lb-img');
+  const lbStrip  = document.getElementById('lb-strip');
+  const lbDesc   = document.getElementById('lb-desc');
+  const lbCounter= document.getElementById('lb-counter');
+  const lbClose  = document.getElementById('lb-close');
+  const lbPrev   = document.getElementById('lb-prev');
+  const lbNext   = document.getElementById('lb-next');
+
+  let current = { proj: 0, img: 0 };
+
+  function openLightbox(projIdx, imgIdx) {
+    current = { proj: projIdx, img: imgIdx };
+    const proj = projects[projIdx];
+
+    lbTitle.textContent = proj.title;
+    lbDesc.textContent  = proj.body;
+
+    // build strip
+    lbStrip.innerHTML = '';
+    if (proj.images.length > 1) {
+      proj.images.forEach((src, i) => {
+        const t = document.createElement('img');
+        t.src = src;
+        t.className = 'lb-thumb' + (i === imgIdx ? ' active' : '');
+        t.addEventListener('click', () => showImage(i));
+        lbStrip.appendChild(t);
+      });
+    }
+
+    showImage(imgIdx);
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function showImage(imgIdx) {
+    const proj = projects[current.proj];
+    current.img = imgIdx;
+    lbImg.src = proj.images[imgIdx];
+    lbImg.alt = `${proj.title} — image ${imgIdx + 1}`;
+    lbCounter.textContent = `${imgIdx + 1} / ${proj.images.length}`;
+    lbPrev.disabled = imgIdx === 0;
+    lbNext.disabled = imgIdx === proj.images.length - 1;
+
+    // update strip
+    lbStrip.querySelectorAll('.lb-thumb').forEach((t, i) => {
+      t.classList.toggle('active', i === imgIdx);
+    });
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  lbClose.addEventListener('click', closeLightbox);
+  lbPrev.addEventListener('click', () => showImage(current.img - 1));
+  lbNext.addEventListener('click', () => showImage(current.img + 1));
+
+  lightbox.addEventListener('click', e => {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft' && current.img > 0) showImage(current.img - 1);
+    if (e.key === 'ArrowRight' && current.img < projects[current.proj].images.length - 1) showImage(current.img + 1);
+  });
+</script>
+</body>
 </html>
