@@ -275,7 +275,7 @@
 
     .lb-main video {
       width: 100%;
-      background: #ffffff;
+      background: #1a0040;
     }
 
     .lb-nav {
@@ -330,7 +330,7 @@
       width: 100%;
     }
 
-    /* video thumb in strip — canvas-generated, same as img thumbs */
+    /* video thumb placeholder in strip */
     .lb-thumb-video {
       aspect-ratio: 1;
       width: 100%;
@@ -338,8 +338,13 @@
       opacity: 0.45;
       border: 1px solid transparent;
       transition: opacity 0.15s, border-color 0.15s;
-      object-fit: cover;
-      display: block;
+      background: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      color: var(--purple-dim);
+      user-select: none;
     }
 
     .lb-thumb.active,
@@ -372,8 +377,6 @@
     @media (max-width: 600px) {
       .lb-strip { display: none; }
       .prompt-bar { flex-direction: column; gap: 0.3rem; }
-      .grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
-      body { animation: none; }
     }
   </style>
 </head>
@@ -420,103 +423,156 @@
 <script>
   // ── PROJECT DATA ─────────────────────────────────────────────────────────────
   const projects = [
-    { title: "churubyte", body: "fallen angel",
-      images: ["cherubyte.png", "fallenangel.mp4"] },
-    { title: "bite is also touch", body: "is bite not also a form of touch?",
-      images: ["benicetome.png", "benicetome2.png"] },
-    { title: "social contagion", body: "handwriting samples from trans people ran through fungal growth simulator",
-      images: ["socialcontagion.png", "socialcontagion.mp4", "socialcontagion.jpg"] },
-    { title: "DRKMTTR concert posters", body: "title explains enough",
-      images: ["kumo2.png", "kumo1.png", "lsp1.png", "lsp2.png"] },
-    { title: "weird inside", body: "freak city exclusive",
-      images: ["1.jpg", "2.jpg", "3.jpg", "4.png"] },
-    { title: "female impersonators", body: "book cover for jennie june's the female impersonators",
-      images: ["mockup2.png", "mockup1.png", "mockup3.png", "jacket.png"] },
-    { title: "whatever u want", body: "i can be it",
-      images: ["wutever.png"] },
-    { title: "unused track covers for k/////att", body: "title explains",
-      images: ["urges1.png", "urges2.png"] },
-    { title: "spare parts", body: "art zine 1",
-      images: ["spareparts1.jpg", "spareparts2.jpg", "spareparts3.jpg"] },
-    { title: "rei fall", body: "a falling rei",
-      images: ["rei_fall.mp4"] },
-    { title: "hearteater", body: "fan music video for six impala's song hearteater",
-      images: ["hearteater.mp4"] },
-    { title: "charcoal drawings", body: "charcoal is fun",
-      images: ["IMG_5202.jpg", "IMG_5203.jpg", "IMG_5204.jpg"] },
-    { title: "portrait de transfemme", body: "recreation of portrait de femme by lili elbe, made with transition medical waste",
-      images: ["IMG_5201.jpg"] },
-    { title: "cowtime", body: "its fricking cow time, guy!",
-      images: ["IMG_5198.jpg", "IMG_5199.jpg", "IMG_5200.jpg"] },
-    { title: "cod edits", body: "watch full quality on youtube", thumbSeek: 0.5,
-      images: ["vertical-helix.mp4", "fnf.mp4", "fruitjuice.mp4", "hehehe_yup.mp4"] },
+    {
+      title: "churubyte2.0",
+      body: "just relaxin lowkey",
+      images: [
+        "nograin2.png",
+      ]
+    },
+    {
+      title: "churubyte",
+      body: "kicked out of heaven for internet piracy",
+      images: [
+        "cherubyte.png",
+	"fallenangel.mp4",
+      ]
+    },
+    {
+      title: "bite is also touch",
+      body: "is bite not also a form of touch?",
+      images: [
+        "benicetome2.png",
+        "benicetome.png",
+      ]
+    },
+    {
+      title: "social contagion",
+      body: "handwriting samples from trans people ran through fungal growth simulator",
+      images: [
+        "socialcontagion.jpg",
+        "socialcontagion.mp4",
+        "socialcontagion.png",
+      ]
+    },
+    {
+      title: "DRKMTTR concert posters",
+      body: "title explains enough",
+      images: [
+        "kumo2.png",
+        "kumo1.png",
+        "lsp1.png",
+        "lsp2.png",
+      ]
+    },
+    {
+      title: "weird inside",
+      body: "freak city exclusive",
+      images: [
+        "1.jpg",
+        "2.jpg",
+        "3.jpg",
+        "4.png",
+      ]
+    },
+    {
+      title: "female impersonators",
+      body: "book cover for jennie june's the female impersonators",
+      images: [
+        "mockup2.png",
+        "mockup1.png",
+        "mockup3.png",
+        "jacket.png",
+      ]
+    },
+    {
+      title: "whatever u want",
+      body: "i can be it",
+      images: [
+        "wutever.png",
+      ]
+    },
+    {
+      title: "unused track covers for k/////att",
+      body: "title explains",
+      images: [
+        "urges1.png",
+        "urges2.png",
+      ]
+    },
+    {
+      title: "spare parts",
+      body: "art zine 1",
+      images: [
+        "spareparts1.jpg",
+        "spareparts2.jpg",
+        "spareparts3.jpg",
+      ]
+    },
+    {
+      title: "hearteater",
+      body: "fan music video for six impala's song hearteater",
+      images: [
+        "hearteater.mp4",
+      ]
+    },
+    {
+      title: "charcoal drawings",
+      body: "charcoal is fun",
+      images: [
+        "IMG_5202.jpg",
+	"IMG_5203.jpg",
+	"IMG_5204.jpg",
+      ]
+    },
+    {
+      title: "portrait de transfemme",
+      body: "recreation of portrait de femme by lili elbe, made with transition medical waste",
+      images: [
+        "IMG_5201.jpg",
+      ]
+    },
+    {
+      title: "cowtime",
+      body: "its fricking cow time, guy!",
+      images: [
+        "IMG_5198.jpg",
+	"IMG_5199.jpg",
+	"IMG_5200.jpg",
+      ]
+    },
+    {
+      title: "cod edits",
+      body: "watch full quality on youtube",
+      images: [
+        "vertical-helix.mp4",
+	"fnf.mp4",
+	"fruitjuice.mp4",
+	"hehehe_yup.mp4",
+      ]
+    },
   ];
 
   // ── HELPERS ──────────────────────────────────────────────────────────────────
-  function isVideo(src) { return /\.mp4$/i.test(src); }
-
-  // Capture a frame from a video. seekFrac is 0-1 fraction of duration.
-  function captureVideoFrame(src, seekFrac = 0.1) {
-    return new Promise((resolve) => {
-      const video = document.createElement('video');
-      video.crossOrigin = 'anonymous';
-      video.muted = true;
-      video.playsInline = true;
-      video.preload = 'metadata';
-      const cleanup = () => { try { video.src = ''; } catch(e) {} };
-      video.addEventListener('loadedmetadata', () => {
-        video.currentTime = video.duration * seekFrac;
-      });
-      video.addEventListener('seeked', () => {
-        try {
-          const canvas = document.createElement('canvas');
-          // Downscale to 400px wide — saves memory on mobile
-          const scale = Math.min(1, 400 / (video.videoWidth || 400));
-          canvas.width  = (video.videoWidth  || 320) * scale;
-          canvas.height = (video.videoHeight || 240) * scale;
-          canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-          resolve(canvas.toDataURL('image/jpeg', 0.7));
-        } catch(e) { resolve(null); }
-        cleanup();
-      });
-      video.addEventListener('error', () => { resolve(null); cleanup(); });
-      video.src = src;
-    });
+  function isVideo(src) {
+    return /\.mp4$/i.test(src);
   }
 
-  // Cache keyed by src@seekFrac
-  const thumbCache = {};
-  function getVideoThumb(src, seekFrac = 0.1) {
-    const key = src + '@' + seekFrac;
-    if (!thumbCache[key]) thumbCache[key] = captureVideoFrame(src, seekFrac);
-    return thumbCache[key];
-  }
-
-  // Throttle concurrent video thumb jobs so mobile doesn't choke
-  let activeJobs = 0;
-  const MAX_JOBS = 2;
-  const jobQueue = [];
-  function scheduleThumb(src, seekFrac, callback) {
-    const run = async () => {
-      activeJobs++;
-      const frame = await getVideoThumb(src, seekFrac);
-      callback(frame);
-      activeJobs--;
-      if (jobQueue.length) jobQueue.shift()();
-    };
-    if (activeJobs < MAX_JOBS) run();
-    else jobQueue.push(run);
-  }
-
-  // ── BUILD GRID (cards rendered immediately, images loaded lazily) ─────────────
+  // ── BUILD GRID ───────────────────────────────────────────────────────────────
   const grid = document.getElementById('grid');
 
   projects.forEach((proj, i) => {
     const card = document.createElement('div');
     card.className = 'card';
     const num = String(i + 1).padStart(2, '0');
+    const thumbSrc = proj.images[0];
+    const thumbEl = isVideo(thumbSrc)
+      ? `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#1a0040;font-size:2rem;color:#9966dd;">▶</div>`
+      : `<img src="${thumbSrc}" alt="${proj.title}" loading="lazy" />`;
+
     card.innerHTML = `
-      <div class="thumb-wrap loading" id="wrap-${i}">
+      <div class="thumb-wrap">
+        ${thumbEl}
         <div class="thumb-overlay">[ OPEN FILE ]</div>
       </div>
       <div class="card-body">
@@ -529,86 +585,47 @@
     grid.appendChild(card);
   });
 
-  // IntersectionObserver: only load thumbnail when card is near viewport
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const wrap = entry.target;
-      const i = parseInt(wrap.id.replace('wrap-', ''), 10);
-      const proj = projects[i];
-      const thumbSrc = proj.images[0];
-      observer.unobserve(wrap);
-
-      if (isVideo(thumbSrc)) {
-        scheduleThumb(thumbSrc, proj.thumbSeek ?? 0.1, (frame) => {
-          wrap.classList.remove('loading');
-          if (frame) {
-            const img = document.createElement('img');
-            img.src = frame;
-            img.alt = proj.title;
-            img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
-            img.onload = () => img.classList.add('loaded');
-            wrap.insertBefore(img, wrap.firstChild);
-          } else {
-            wrap.style.cssText += 'display:flex;align-items:center;justify-content:center;background:#f5f5f5;font-size:2rem;color:#9966dd;';
-            wrap.insertAdjacentText('afterbegin', '\u25b6');
-          }
-        });
-      } else {
-        const img = document.createElement('img');
-        img.alt = proj.title;
-        img.decoding = 'async';
-        img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
-        img.onload = () => { img.classList.add('loaded'); wrap.classList.remove('loading'); };
-        img.onerror = () => wrap.classList.remove('loading');
-        img.src = thumbSrc;
-        wrap.insertBefore(img, wrap.firstChild);
-      }
-    });
-  }, { rootMargin: '200px' });
-
-  document.querySelectorAll('[id^="wrap-"]').forEach(el => observer.observe(el));
-
   // DOS date
   const d = new Date();
-  const pad = n => String(n).padStart(2, '0');
+  const pad = n => String(n).padStart(2,'0');
   document.getElementById('dos-date').textContent =
     `${pad(d.getMonth()+1)}-${pad(d.getDate())}-${d.getFullYear()}`;
 
   // ── LIGHTBOX ─────────────────────────────────────────────────────────────────
   const lightbox = document.getElementById('lightbox');
-  const lbTitle   = document.getElementById('lb-title');
-  const lbImg     = document.getElementById('lb-img');
-  const lbVideo   = document.getElementById('lb-video');
-  const lbStrip   = document.getElementById('lb-strip');
-  const lbDesc    = document.getElementById('lb-desc');
-  const lbCounter = document.getElementById('lb-counter');
-  const lbClose   = document.getElementById('lb-close');
-  const lbPrev    = document.getElementById('lb-prev');
-  const lbNext    = document.getElementById('lb-next');
+  const lbTitle  = document.getElementById('lb-title');
+  const lbImg    = document.getElementById('lb-img');
+  const lbVideo  = document.getElementById('lb-video');
+  const lbStrip  = document.getElementById('lb-strip');
+  const lbDesc   = document.getElementById('lb-desc');
+  const lbCounter= document.getElementById('lb-counter');
+  const lbClose  = document.getElementById('lb-close');
+  const lbPrev   = document.getElementById('lb-prev');
+  const lbNext   = document.getElementById('lb-next');
 
   let current = { proj: 0, img: 0 };
 
   function openLightbox(projIdx, imgIdx) {
     current = { proj: projIdx, img: imgIdx };
     const proj = projects[projIdx];
+
     lbTitle.textContent = proj.title;
     lbDesc.textContent  = proj.body;
 
+    // build strip
     lbStrip.innerHTML = '';
     if (proj.images.length > 1) {
       proj.images.forEach((src, i) => {
         if (isVideo(src)) {
-          const t = document.createElement('img');
+          const t = document.createElement('div');
           t.className = 'lb-thumb-video' + (i === imgIdx ? ' active' : '');
-          t.style.cssText = 'width:100%;aspect-ratio:1;object-fit:cover;cursor:pointer;';
+          t.textContent = '▶';
+          t.title = 'video';
           t.addEventListener('click', () => showImage(i));
           lbStrip.appendChild(t);
-          scheduleThumb(src, proj.thumbSeek ?? 0.1, (frame) => { if (frame) t.src = frame; });
         } else {
           const t = document.createElement('img');
           t.src = src;
-          t.decoding = 'async';
           t.className = 'lb-thumb' + (i === imgIdx ? ' active' : '');
           t.addEventListener('click', () => showImage(i));
           lbStrip.appendChild(t);
@@ -644,6 +661,7 @@
       lbImg.alt = `${proj.title} — image ${imgIdx + 1}`;
     }
 
+    // update strip
     lbStrip.querySelectorAll('.lb-thumb, .lb-thumb-video').forEach((t, i) => {
       t.classList.toggle('active', i === imgIdx);
     });
@@ -659,26 +677,17 @@
   lbClose.addEventListener('click', closeLightbox);
   lbPrev.addEventListener('click', () => showImage(current.img - 1));
   lbNext.addEventListener('click', () => showImage(current.img + 1));
-  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+
+  lightbox.addEventListener('click', e => {
+    if (e.target === lightbox) closeLightbox();
+  });
 
   document.addEventListener('keydown', e => {
     if (!lightbox.classList.contains('open')) return;
     if (e.key === 'Escape') closeLightbox();
-    if (e.key === 'ArrowLeft'  && current.img > 0) showImage(current.img - 1);
+    if (e.key === 'ArrowLeft' && current.img > 0) showImage(current.img - 1);
     if (e.key === 'ArrowRight' && current.img < projects[current.proj].images.length - 1) showImage(current.img + 1);
   });
-
-  // ── SWIPE GESTURES (mobile lightbox) ─────────────────────────────────────────
-  let touchStartX = 0;
-  const lbMain = document.querySelector('.lb-main');
-  lbMain.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
-  lbMain.addEventListener('touchend', e => {
-    const dx = e.changedTouches[0].clientX - touchStartX;
-    if (Math.abs(dx) < 40) return;
-    const proj = projects[current.proj];
-    if (dx < 0 && current.img < proj.images.length - 1) showImage(current.img + 1);
-    if (dx > 0 && current.img > 0) showImage(current.img - 1);
-  }, { passive: true });
 </script>
 </body>
 </html>
